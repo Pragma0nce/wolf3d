@@ -82,6 +82,16 @@ mlx_pixel_put(mlx, win, x2, y2, color);
 }
 
 
+void	update_view(Player *player)
+{
+	player->view.pos.x = 2 * x / (double) SCREEN_WIDTH - 1;
+	player->view.ray.pos.x = player->pos.x;
+	player->view.ray.pos.x = player->pos.y;
+	player->view.ray.dir.x = player->dir.x + player->view.plane.x * player->view.x;
+	player->view.ray.dir.y = player->dir.y + player->view.plane.y * player->view.x;
+}
+
+
 int main()
 {
 	void *mlx;
@@ -119,9 +129,16 @@ int main()
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "mlx");
 	
-	double posX = 22, posY = 12;
-	double dirX = -1, dirY = 0;
-	double planeX = 0, planeY = 0.66;
+	// Player init
+	t_player player;
+	player.pos.x = 22;
+	player.pos.y = 12;
+	player.view.plane.x = 0;
+	player.view.plane.y = 0.66;
+	
+	//double posX = 22, posY = 12;
+	//double dirX = -1, dirY = 0;
+	//double planeX = 0, planeY = 0.66;
 	int done = 0;
 	double time = 0;
 	double oldTime = 0;
@@ -131,12 +148,13 @@ int main()
 		// Ray casting loop
 		for (int x = 0; x < SCREEN_WIDTH; x++)
 		{
-			double cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
-			double rayPosX = posX;
-			double rayPosY = posY;
-			double rayDirX = dirX + planeX * cameraX;
-			double rayDirY = dirY + planeY * cameraX;
-
+			//double cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
+			//double rayPosX = posX;
+			//double rayPosY = posY;
+			//double rayDirX = dirX + planeX * cameraX;
+			///double rayDirY = dirY + planeY * cameraX;
+			
+			update_view(&player);
 			// Which box of the map
 			int mapX = (int)rayPosX;
 			int mapY = (int)rayPosY;
