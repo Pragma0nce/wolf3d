@@ -6,7 +6,7 @@
 /*   By: kcoetzee <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/13 16:36:13 by kcoetzee          #+#    #+#             */
-/*   Updated: 2017/07/13 16:41:57 by kcoetzee         ###   ########.fr       */
+/*   Updated: 2017/07/17 11:08:21 by kcoetzee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,35 @@ int	dda_loop(t_vector2 *side_dist, t_vector2 *delta_dist, t_vector2 *step, t_vec
 		if (world_map[map.x][map.y] > 0)
 			return (side);
 	}
+}
+
+void	draw(double perpWallDist, int worldMap[mapWidth][mapHeight])
+{
+	// Calculate height of line to draw
+	int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
+
+	// calculate the lowes and highest pixel to fill in current stripe
+	int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2;
+	if (drawStart < 0)
+		drawStart = 0;
+	int drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2;
+	if (drawEnd >= SCREEN_HEIGHT) drawEnd = SCREEN_HEIGHT - 1;
+	
+	// Choose wall color
+	switch (worldMap[mapX][mapY])
+	{
+		case 1: color = 0x0c43c2d; break; // RED
+		case 2: color = 0x041c42d; break; // GREEN
+		case 3: color = 0x02f2dc4; break; // BLUE
+		case 4: color = 0x0ffffff; break; // WHITE
+		default: color = 0x0e5df87; break; // YELLOW
+	}
+
+	// Give x and y side a different brightness
+	if (side == 1) 
+		color = color / 2;
+						
+	draw_line(x, drawStart, x, drawEnd, mlx, win, color);
 }
 
 void	dda(t_raycast *ray, int **world_map)
@@ -77,4 +106,9 @@ void	dda(t_raycast *ray, int **world_map)
 	}
 
 	side = dda_loop(&side_dist, &delta_dist, &step, ray, world_map)
+
+	if (side == 0)
+		perpWallDist = (map.x - player.view.ray.pos.x + (1 - stepX) / 2) / rayDirX;
+	else
+		perpWallDist = (map.x - player.view.ray.pos.y + (1 - stepY) / 2) / rayDirY;
 }

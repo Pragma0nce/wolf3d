@@ -6,7 +6,7 @@
 /*   By: kcoetzee <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/13 16:33:57 by kcoetzee          #+#    #+#             */
-/*   Updated: 2017/07/13 16:41:56 by kcoetzee         ###   ########.fr       */
+/*   Updated: 2017/07/17 11:18:02 by kcoetzee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 800
-#define mapWidth 24
-#define mapHeight 24
+#define MAP_WIDTH 24
+#define MAP_HEIGHT 24
 typedef	struct	s_vector2
 {
 	double	x;
@@ -46,6 +46,11 @@ typedef	struct	s_camera
 	t_raycast	ray;
 }				t_camera;
 
+typedef	struct	s_map
+{
+	int	grid[MAP_WIDTH][MAP_HEIGHT];
+}				t_map;
+
 typedef	struct	s_player
 {
 	t_vector2	pos;
@@ -57,3 +62,9 @@ typedef	struct	s_player
 int		dda_loop(t_vector2 *side_dist, t_vector2 *delta_dist, t_vector2 *step, t_vector2 *ray, int **world_map);
 void	dda(t_raycast *ray, int **world_map);
 void 	draw_line(int x1,int y1, int x2, int y2, void *mlx, void *win, int color);
+int		sign(int x);
+int		check_input(int keycode, void *param);
+void	update_view(t_player *player);
+
+
+#endif
