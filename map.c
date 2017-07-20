@@ -46,6 +46,5 @@ t_map	*create_map(void)
 	t_map *map;
 	map = (t_map*)malloc(sizeof(t_map));	
 	
-	while
 }
 

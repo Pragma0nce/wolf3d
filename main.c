@@ -12,14 +12,6 @@
 
 #include "main.h"
 
-void	update_view(t_player *player, int x)
-{
-	player->view.pos.x = 2 * x / (double) SCREEN_WIDTH - 1;
-	player->view.ray.pos.x = player->pos.x;
-	player->view.ray.pos.x = player->pos.y;
-	player->view.ray.dir.x = player->dir.x + player->view.plane.x * player->view.x;
-	player->view.ray.dir.y = player->dir.y + player->view.plane.y * player->view.x;
-}
 
 
 int main()
